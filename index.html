@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepak A | GOD LEVEL AI Engineer</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            overflow-x: hidden
+        }
+
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2
+        }
+
+        .cursor {
+            position: fixed;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00f5ff;
+            pointer-events: none;
+            box-shadow: 0 0 20px #00f5ff, 0 0 40px #00f5ff;
+            transform: translate(-50%, -50%);
+            z-index: 9999
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 1000
+        }
+
+        nav a {
+            color: #fff;
+            margin-left: 25px;
+            text-decoration: none
+        }
+
+        nav a:hover {
+            color: #00f5ff
+        }
+
+        section {
+            padding: 120px 10%;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 1s
+        }
+
+        section.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .section-title {
+            font-size: 40px;
+            color: #00f5ff;
+            margin-bottom: 40px
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            margin-bottom: 30px;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2)
+        }
+
+        .resume-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #00f5ff, #ff00c8);
+            border-radius: 30px;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.4s
+        }
+
+        .resume-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #00f5ff
+        }
+
+        /* ===== GRAPHICAL CIRCLE SKILLS ===== */
+        .skills-graphical {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 60px;
+            justify-content: center;
+        }
+
+        .circle-skill {
+            width: 150px;
+            text-align: center;
+            position: relative;
+            transition: 0.4s;
+        }
+
+        .circle-skill:hover {
+            transform: scale(1.1);
+        }
+
+        .circle-skill svg {
+            width: 150px;
+            height: 150px;
+            transform: rotate(-90deg);
+        }
+
+        .circle-skill circle {
+            fill: none;
+            stroke-width: 10;
+            stroke: #222;
+        }
+
+        .circle-skill circle.progress {
+            stroke: url(#gradient);
+            stroke-linecap: round;
+            stroke-dasharray: 377;
+            stroke-dashoffset: 377;
+            transition: 2s ease;
+        }
+
+        .circle-skill .number {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            font-size: 22px;
+            font-weight: bold;
+            color: #00f5ff;
+        }
+
+        .circle-skill p {
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.5;
+
+        }
+
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px
+        }
+
+        .project-card {
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            transition: 0.4s;
+            transform-style: preserve-3d
+        }
+
+        .project-card:hover {
+            transform: rotateY(10deg) rotateX(10deg);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.5)
+        }
+
+        .github-box {
+            text-align: center
+        }
+
+        .github-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 30px;
+            background: #24292e;
+            color: #fff;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: 0.3s
+        }
+
+        .github-btn:hover {
+            background: #00f5ff;
+            color: #000
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4)
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #222;
+            color: #fff
+        }
+
+        button {
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #00f5ff, #ff00c8);
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            cursor: pointer
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            opacity: 0.5
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="three-bg"></div>
+    <div class="cursor"></div>
+
+    <header>
+        <h1>DEEPAK A</h1>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#projects">Projects</a>
+            <a href="#github">GitHub</a>
+            <a href="#map">Location</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- ABOUT (UNCHANGED) -->
+    <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="glass">
+            <h3>AI Engineer</h3>
+            <p>
+                Hi there! I'm <b>Deepak A</b>, a passionate AI engineer and developer who enjoys building eye-catching,
+                mobile-friendly applications and websites.
+                I'm a B.Tech student specializing in Artificial Intelligence and Data Science.
+                I love Machine Learning, Data Structures, Algorithms, and Web Development.
+            </p>
+            <br>
+            <p>
+                Birthday: 15 October <br>
+                Phone: +91 9047623402 <br>
+                City: Puducherry, India <br>
+                Age: 20 <br>
+                Degree: B.Tech Artificial Intelligence and Data Science <br>
+                Email: deepaknandha041@gmail.com
+            </p>
+            <br>
+            <p>
+                As a motivated fast learner with strong foundations in machine learning, data analysis, and programming,
+                I aim to contribute impactful AI solutions while continuously improving my technical expertise.
+            </p>
+            <a href="resume.pdf" download class="resume-btn">Download Resume</a>
+        </div>
+    </section>
+    <section id="skills"></section>
+
+    <div class="skills-graphical">
+
+        <div class="circle-skill" data-percent="80">
+            <svg>
+                <circle cx="70" cy="70" r="60"></circle>
+                <circle cx="70" cy="70" r="60" class="progress"></circle>
+            </svg>
+            <div class="number">80%</div>
+            <p>HTML</p>
+        </div>
+
+        <div class="circle-skill" data-percent="80">
+            <svg>
+                <circle cx="70" cy="70" r="60"></circle>
+                <circle cx="70" cy="70" r="60" class="progress"></circle>
+            </svg>
+            <div class="number">80%</div>
+            <p>CSS</p>
+        </div>
+
+        <div class="circle-skill" data-percent="60">
+            <svg>
+                <circle cx="70" cy="70" r="60"></circle>
+                <circle cx="70" cy="70" r="60" class="progress"></circle>
+            </svg>
+            <div class="number">60%</div>
+            <p>Data Analyst</p>
+        </div>
+
+        <div class="circle-skill" data-percent="50">
+            <svg>
+                <circle cx="70" cy="70" r="60"></circle>
+                <circle cx="70" cy="70" r="60" class="progress"></circle>
+            </svg>
+            <div class="number">50%</div>
+            <p>C++</p>
+        </div>
+
+        <div class="circle-skill" data-percent="90">
+            <svg>
+                <circle cx="70" cy="70" r="60"></circle>
+                <circle cx="70" cy="70" r="60" class="progress"></circle>
+            </svg>
+            <div class="number">90%</div>
+            <p>Python</p>
+        </div>
+
+        <div class="circle-skill" data-percent="70">
+            <svg>
+                <circle cx="70" cy="70" r="60"></circle>
+                <circle cx="70" cy="70" r="60" class="progress"></circle>
+            </svg>
+            <div class="number">70%</div>
+            <p>ML & DL</p>
+        </div>
+
+    </div>
+
+    <!-- EDUCATION -->
+    <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="glass">
+
+            <h3>Bachelor of Artificial Intelligence and Data Science</h3>
+            <p><b>2023-2027</b></p>
+            <p>Achariya College of Engineering Technology, Pondy-605001</p>
+            <p>
+                I am currently pursuing my Bachelor’s degree in Artificial Intelligence and Data Science at Achariya
+                College of Engineering Technology.
+                This program is enhancing my knowledge in machine learning, data analytics, and emerging AI
+                technologies.
+                It is helping me build strong technical and problem-solving skills for real-world applications.
+            </p>
+
+            <br><br>
+
+            <h3>HSC</h3>
+            <p><b>2022-2023</b></p>
+            <p>V.O.C,H.G School, Pondy-1</p>
+            <p>
+                I completed my Higher Secondary education at VOC School, where I strengthened my academic foundation and
+                developed consistent learning habits.
+                Through dedication and regular practice, I maintained steady performance throughout the course.
+                I successfully secured 70% in my HSC examinations.
+            </p>
+
+            <br><br>
+
+            <h3>SSLC</h3>
+            <p><b>2020-2021</b></p>
+            <p>Thiru Vi Ka School</p>
+            <p>
+                I completed my SSLC at Thiru Vi Ka School, where I built a strong base in core subjects and improved my
+                overall academic skills.
+                My school years helped me develop discipline and responsibility toward my studies.
+                I achieved 75% in my SSLC examinations.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+        <h2 class="section-title">My Projects</h2>
+        <div class="projects-grid">
+
+            <div class="project-card">
+                <h3>AI Image Classifier</h3>
+                <p>Deep learning based CNN model for movie image classification.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Data Visualization Dashboard</h3>
+                <p>Interactive dashboard using Python and modern visualization tools.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>Cloud Learning Platform</h3>
+                <p>Scalable cloud-based online learning system architecture.</p>
+                <a href="#">View Project</a>
+            </div>
+
+            <div class="project-card">
+                <h3>IoT Smart Monitoring</h3>
+                <p>Real-time IoT device monitoring and analytics system.</p>
+                <a href="#">View Project</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="glass">
+
+            <p><b>Address:</b><br>
+                29B Vambakerrapalayam, Pondy-11</p>
+
+            <br>
+
+            <p><b>Call Me:</b><br>
+                +91 9047623402</p>
+
+            <br>
+
+            <p><b>Email Us:</b><br>
+                deepaknandha041@gamil.com</p>
+
+        </div>
+    </section>
+
+    <!-- GITHUB -->
+    <section id="github">
+        <h2 class="section-title">My GitHub</h2>
+        <div class="glass github-box">
+            <h3>Explore My Projects on GitHub</h3>
+            <p>Click below to view all repositories and AI projects.</p>
+            <a href="https://github.com/deepaknandha041-bit" target="_blank" class="github-btn">Visit GitHub</a>
+        </div>
+    </section>
+
+    <!-- MAP -->
+    <section id="map">
+        <h2 class="section-title">My Location</h2>
+        <div class="map-container">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d243.98552713805265!2d79.83320215753615!3d11.92119725314024!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a53622628ec7b8b%3A0xa7fffd4190161987!2s41B%2C%20Vambakeerapalayam%2C%20Puducherry%2C%20605001!5e0!3m2!1sen!2sin!4v1771829788127!5m2!1sen!2sin"
+                width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <footer>© 2026 Deepak A | GOD LEVEL AI Portfolio</footer>
+
+    <script>
+        /* ================= THREE SCENE ================= */
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(
+            75,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            2000
+        );
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById("three-bg").appendChild(renderer.domElement);
+
+        /* ================= GALAXY STARS ================= */
+        const starGeometry = new THREE.BufferGeometry();
+        const starCount = 7000;
+        const starPositions = [];
+
+        for (let i = 0; i < starCount; i++) {
+            starPositions.push((Math.random() - 0.5) * 2500);
+            starPositions.push((Math.random() - 0.5) * 2500);
+            starPositions.push((Math.random() - 0.5) * 2500);
+        }
+
+        starGeometry.setAttribute(
+            "position",
+            new THREE.Float32BufferAttribute(starPositions, 3)
+        );
+
+        const starMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 1.2,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const stars = new THREE.Points(starGeometry, starMaterial);
+        scene.add(stars);
+
+        /* ================= CENTER SPHERE ================= */
+        const sphereGeometry = new THREE.SphereGeometry(10, 32, 32);
+        const sphereMaterial = new THREE.MeshBasicMaterial({
+            wireframe: true,
+            color: 0x00f5ff
+        });
+
+        const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        scene.add(sphere);
+
+        camera.position.z = 40;
+
+        /* ================= MOUSE PARALLAX ================= */
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener("mousemove", (event) => {
+            mouseX = (event.clientX / window.innerWidth - 0.5) * 2;
+            mouseY = (event.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        /* ================= ANIMATION ================= */
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Sphere rotation
+            sphere.rotation.y += 0.003;
+            sphere.rotation.x += 0.001;
+
+            // Mouse tilt
+            sphere.rotation.y += mouseX * 0.01;
+            sphere.rotation.x += mouseY * 0.01;
+
+            // Galaxy slow rotation
+            stars.rotation.y += 0.0004;
+
+            // Twinkle sparkle effect
+            starMaterial.opacity = 0.6 + Math.sin(Date.now() * 0.002) * 0.4;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        /* ================= RESPONSIVE ================= */
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /* ================= SKILL ANIMATION ================= */
+        window.addEventListener("load", () => {
+            document.querySelectorAll(".skill-progress").forEach(bar => {
+                bar.style.width = bar.dataset.width;
+            });
+        });
+
+        /* ================= CUSTOM CURSOR ================= */
+        const cursor = document.querySelector(".cursor");
+        document.addEventListener("mousemove", e => {
+            cursor.style.left = e.pageX + "px";
+            cursor.style.top = e.pageY + "px";
+        });
+
+        /* ================= SCROLL REVEAL ================= */
+        const sections = document.querySelectorAll("section");
+        window.addEventListener("scroll", () => {
+            sections.forEach(sec => {
+                if (window.scrollY + window.innerHeight - 100 > sec.offsetTop) {
+                    sec.classList.add("show");
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
